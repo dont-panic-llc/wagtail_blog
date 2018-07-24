@@ -19,6 +19,7 @@ from taggit.models import TaggedItemBase, Tag
 from modelcluster.tags import ClusterTaggableManager
 from modelcluster.fields import ParentalKey
 from .utils import unique_slugify
+from wagtailmetadata.models import MetadataPageMixin
 import datetime
 
 
@@ -42,7 +43,7 @@ def get_blog_context(context):
     return context
 
 
-class BlogIndexPage(Page):
+class BlogIndexPage(MetadataPageMixin, Page):
     @property
     def blogs(self):
         # Get list of blog pages that are descendants of this page
@@ -192,7 +193,7 @@ def limit_author_choices():
     return limit
 
 
-class BlogPage(Page):
+class BlogPage(MetadataPageMixin, Page):
     body = RichTextField(verbose_name=_('body'), blank=True)
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     date = models.DateField(
